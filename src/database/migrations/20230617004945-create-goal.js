@@ -1,18 +1,19 @@
 'use strict';
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('CheckListItem', {
+    await queryInterface.createTable('Goal', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      CheckListId: {
+      KidId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'CheckList',
+          model: 'Kid',
           key: 'id',
         },
         unique: false,
@@ -20,14 +21,17 @@ module.exports = {
       title: {
         type: Sequelize.STRING
       },
-      time: {
-        type: Sequelize.INTEGER
+      description: {
+        type: Sequelize.STRING(1000)
       },
-      check: {
+      startDate: {
+        type: Sequelize.DATE
+      },
+      finishDate: {
+        type: Sequelize.DATE
+      },
+      isPrivate: {
         type: Sequelize.BOOLEAN
-      },
-      order: {
-        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -40,6 +44,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('CheckListItem');
+    await queryInterface.dropTable('Goal');
   }
 };

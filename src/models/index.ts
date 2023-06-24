@@ -1,15 +1,19 @@
 'use strict';
+import { Class } from './Class';
+import { Goal } from './Goal';
+import { Kid } from './Kid';
+import { Task } from './Task';
 import { User } from './User';
 import { UserRefresh } from './UserRefresh';
-import { CheckList } from './CheckList';
-import { CheckListItem } from './CheckListItem';
 
 
 export {
   User,
   UserRefresh,
-  CheckList,
-  CheckListItem,
+  Class,
+  Kid,
+  Goal,
+  Task,
 };
 
 User.hasMany(UserRefresh, {
@@ -19,30 +23,26 @@ User.hasMany(UserRefresh, {
 });
 UserRefresh.belongsTo(User);
 
-User.hasMany(CheckList, {
+User.hasMany(Class, {
   sourceKey: 'id',
   foreignKey: 'UserId',
-  as: 'checkLists' // this determines the name in `associations`!
 });
-CheckList.belongsTo(User);
+Class.belongsTo(User);
 
-CheckList.hasMany(CheckListItem, {
+Class.hasMany(Kid, {
   sourceKey: 'id',
-  foreignKey: 'CheckListId',
-  as: 'tasks' // this determines the name in `associations`!
+  foreignKey: 'ClassId',
 });
-CheckListItem.belongsTo(CheckList);
+Kid.belongsTo(Class);
 
-// User.hasMany(Team);
-// Team.belongsTo(User);
+Kid.hasMany(Goal, {
+  sourceKey: 'id',
+  foreignKey: 'KidId',
+});
+Goal.belongsTo(Kid);
 
-// // Kids
-// User.hasMany(Kid);
-// Kid.belongsTo(User);
-
-// Team.hasMany(Kid);
-// Kid.belongsTo(Team);
-
-
-// User.hasMany(UserRefresh);
-// UserRefresh.belongsTo(User);
+Goal.hasMany(Task, {
+  sourceKey: 'id',
+  foreignKey: 'GoalId',
+});
+Task.belongsTo(Goal);

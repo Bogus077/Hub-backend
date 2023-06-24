@@ -3,10 +3,9 @@
 import express, { Application, Request, response, Response } from 'express'
 import { router as UserRouter } from "./routes/user.router";
 import { router as AuthRouter } from './routes/auth.router';
-import { router as CheckListRouter } from './routes/checkList.router';
+import { router as KidRouter } from './routes/kid.router';
+import { router as TaskRouter } from './routes/task.router';
 import { serverConfig } from './config/config';
-import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from './swagger-output.json';
 import cors from 'cors';
 const app = express();
 import http from 'http';
@@ -18,13 +17,11 @@ const io = new Server(server, {
   }
 });
 
-// app.use(tokenValidation);
 app.use(cors());
 app.use('/user', UserRouter);
 app.use('/auth', AuthRouter);
-app.use('/checkList', CheckListRouter);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.get('/swagger', (request, response) => response.send(swaggerDocument));
+app.use('/kid', KidRouter);
+app.use('/task', TaskRouter);
 app.get('/', (request, response) => {
   response.send('Hello, Hackerman! Welcome to KKGame-Backend');
 });

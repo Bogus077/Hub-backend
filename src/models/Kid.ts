@@ -1,19 +1,21 @@
 import { sequelize } from '../database/database.config';
-import { CreationOptional, DataTypes as Sequelize, ForeignKey, InferAttributes, InferCreationAttributes, Model } from "sequelize";
-import { User } from "./User";
+import { Association, CreationOptional, DataTypes as Sequelize, ForeignKey, InferAttributes, InferCreationAttributes, Model, NonAttribute } from "sequelize";
+import { Class } from './Class';
 
-export class CheckList extends Model<InferAttributes<CheckList>, InferCreationAttributes<CheckList>> {
+
+export class Kid extends Model<InferAttributes<Kid>, InferCreationAttributes<Kid>> {
   declare id: CreationOptional<number>;
-  declare UserId: CreationOptional<ForeignKey<User['id']>>;
-  declare title: string;
-  declare time: CreationOptional<Date>;
+  declare ClassId: ForeignKey<Class['id']>;
+  declare name: CreationOptional<string>;
+  declare lastName: CreationOptional<string>;
+
   // createdAt can be undefined during creation
   declare createdAt: CreationOptional<Date>;
   // updatedAt can be undefined during creation
   declare updatedAt: CreationOptional<Date>;
 }
 
-CheckList.init(
+Kid.init(
   {
     id: {
       allowNull: false,
@@ -21,20 +23,20 @@ CheckList.init(
       primaryKey: true,
       type: Sequelize.INTEGER
     },
-    UserId: {
-      allowNull: true,
+    ClassId: {
+      allowNull: false,
       type: Sequelize.INTEGER,
       references: {
-        model: 'User',
+        model: 'Class',
         key: 'id',
       },
       unique: false,
     },
-    title: {
+    name: {
       type: Sequelize.STRING
     },
-    time: {
-      type: Sequelize.DATE
+    lastName: {
+      type: Sequelize.STRING
     },
     createdAt: {
       allowNull: false,
@@ -47,6 +49,6 @@ CheckList.init(
   },
   {
     sequelize,
-    tableName: 'CheckList'
+    tableName: 'Kid'
   }
 )

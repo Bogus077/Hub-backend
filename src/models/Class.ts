@@ -1,22 +1,20 @@
 import { sequelize } from '../database/database.config';
-import { CreationOptional, DataTypes as Sequelize, ForeignKey, InferAttributes, InferCreationAttributes, Model } from "sequelize";
-import { User } from "./User";
-import { CheckList } from './CheckList';
+import { Association, CreationOptional, DataTypes as Sequelize, ForeignKey, InferAttributes, InferCreationAttributes, Model, NonAttribute } from "sequelize";
+import { User } from './User';
 
-export class CheckListItem extends Model<InferAttributes<CheckListItem>, InferCreationAttributes<CheckListItem>> {
+
+export class Class extends Model<InferAttributes<Class>, InferCreationAttributes<Class>> {
   declare id: CreationOptional<number>;
-  declare CheckListId: ForeignKey<CheckList['id']>;
-  declare title: string;
-  declare time: number;
-  declare check: boolean;
-  declare order: number;
+  declare UserId: ForeignKey<User['id']>;
+  declare name: CreationOptional<string>;
+
   // createdAt can be undefined during creation
   declare createdAt: CreationOptional<Date>;
   // updatedAt can be undefined during creation
   declare updatedAt: CreationOptional<Date>;
 }
 
-CheckListItem.init(
+Class.init(
   {
     id: {
       allowNull: false,
@@ -24,26 +22,17 @@ CheckListItem.init(
       primaryKey: true,
       type: Sequelize.INTEGER
     },
-    CheckListId: {
+    UserId: {
       allowNull: false,
       type: Sequelize.INTEGER,
       references: {
-        model: 'CheckList',
+        model: 'User',
         key: 'id',
       },
       unique: false,
     },
-    title: {
+    name: {
       type: Sequelize.STRING
-    },
-    time: {
-      type: Sequelize.INTEGER
-    },
-    check: {
-      type: Sequelize.BOOLEAN
-    },
-    order: {
-      type: Sequelize.INTEGER
     },
     createdAt: {
       allowNull: false,
@@ -56,6 +45,6 @@ CheckListItem.init(
   },
   {
     sequelize,
-    tableName: 'CheckListItem'
+    tableName: 'Class'
   }
 )

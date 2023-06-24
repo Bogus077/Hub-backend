@@ -2,10 +2,31 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { validateData, isUserExistsRules, loginRules, userSignUpRules } from '../validationRules';
 import { sequelize } from '../../database/database.config';
-import { User } from '../../models/index';
+import { User, UserRefresh } from '../../models/index';
 import { createRefreshToken, createToken } from '../token';
 import axios from 'axios';
-import { CreateUserType, LoginUserType } from 'src/schema/user';
+import { CreateUserType, LoginUserType } from '../../schema/user';
+
+/**
+ * Получение данных пользователя
+ */
+export const getUserData = async (id: number) => {
+  const user = await User.findOne({
+    where: { id },
+    attributes: { exclude: ['password'] },
+  })
+  return user;
+}
+
+/**
+ * Получение данных всех пользователей
+ */
+export const getAllUserData = async () => {
+  const users = await User.findAll({
+    attributes: { exclude: ['password'] },
+  })
+  return users;
+}
 
 /**
  * Проверка пароля на соответствие с записанным в базе

@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express'
-import jwt, { GetPublicKeyOrSecret, Secret } from 'jsonwebtoken';
+import jwt, { GetPublicKeyOrSecret, Secret, JwtPayload as JwtPayloadBase } from 'jsonwebtoken';
 import { User, UserRefresh } from '../models';
 import { createRefreshToken, createToken } from '../utils/token';
 import { jwtSecret } from '../config/config';
 
-export type JwtPayload = { id: number, iat: number, exp: number };
+export type JwtPayload = JwtPayloadBase & { id: number, iat: number, exp: number };
 
 export const verifyJWT = (req: Request & { jwt: JwtPayload }, res: Response, next: NextFunction) => {
   const bearerHeader = req.headers.authorization;

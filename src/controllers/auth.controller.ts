@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { CreateUserType, LoginUserType } from '../schema/user';
 import { createRefreshToken, createToken } from '../utils/token';
-import { isUserExists, loginUser, signUpUser } from '../utils/user';
+import { isUserExists, loginUser, signUpUser } from '../utils/user/user';
 import { JwtPayload } from '../middlewares/authJwt';
 
 export async function useRefreshRequest(req: Request & { jwt: JwtPayload } & { tokens: { accessToken: string, refreshToken: string } }, res: Response) {
@@ -17,7 +17,6 @@ export async function useRefreshRequest(req: Request & { jwt: JwtPayload } & { t
 export async function loginRequest(req: Request, res: Response) {
   try {
     const requestData = req.body as LoginUserType['request'];
-    console.log(requestData);
     const user = await loginUser(requestData);
     const accessToken = createToken(user);
     const refreshToken = await createRefreshToken(user);

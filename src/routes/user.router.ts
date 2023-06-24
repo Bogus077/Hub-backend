@@ -1,10 +1,11 @@
 const express = require('express');
 export const router = express.Router();
 import bodyParser from 'body-parser';
-import { getUserRequest } from '../controllers/user.controller';
+import { getUserRequest, getAllUsersRequest } from '../controllers/user.controller';
 const jsonParser = bodyParser.json();
 import { verifyJWT } from '../middlewares';
 
 router.use([jsonParser]);
-router.get('/get', [verifyJWT], getUserRequest);
+router.get('/getCurrentUser', [verifyJWT], getUserRequest);
+router.get('/getAllUsers', [], getAllUsersRequest);
 

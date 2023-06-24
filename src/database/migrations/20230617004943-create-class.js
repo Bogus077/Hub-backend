@@ -1,7 +1,8 @@
 'use strict';
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('CheckList', {
+    await queryInterface.createTable('Class', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -9,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       UserId: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'User',
@@ -17,11 +18,8 @@ module.exports = {
         },
         unique: false,
       },
-      title: {
+      name: {
         type: Sequelize.STRING
-      },
-      time: {
-        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
@@ -34,6 +32,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('CheckList');
+    await queryInterface.dropTable('Class');
   }
 };
